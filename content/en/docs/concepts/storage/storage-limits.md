@@ -57,10 +57,8 @@ Dynamic volume limits is supported for following volume types.
 - Amazon EBS
 - Google Persistent Disk
 - Azure Disk
+- CSI
 
-To enable dynamic volume limits, set the `AttachVolumeLimit`
-[feature gate](/docs/reference/command-line-tools-reference/feature-gates/)
-to True.
 
 When the dynamic volume limits feature is enabled, Kubernetes automatically
 determines the node type and supports the appropriate number of attachable
@@ -71,11 +69,14 @@ volumes for the node. For example:
 up to 128 volumes can be attached to a node, [depending on the node
 type](https://cloud.google.com/compute/docs/disks/#pdnumberlimits).
 
-* For Amazon EBS disks on M5/C5 instance types, Kubernetes allows only 25
+* For Amazon EBS disks on M5,C5,R5,T3 and Z1D instance types, Kubernetes allows only 25
 volumes to be attached to a node. For other instance types on
 <a href="https://aws.amazon.com/ec2/">Amazon Elastic Compute Cloud (EC2)</a>,
 Kubernetes allows 39 volumes to be attached to a node.
 
 * On Azure, up to 64 disks can be attached to a node, depending on the node type. For more details, refer to [Sizes for virtual machines in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes).
+
+* For CSI any driver that advertises volume attach limits via CSI specs, will have those limits available as node's allocatable property
+  and scheduler will not schedule pods(with volumes) on the node that is already at its capacity. Please refer to [CSI specs](https://github.com/container-storage-interface/spec/blob/master/spec.md#nodegetinfo) for more details.
 
 {{% /capture %}}
