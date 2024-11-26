@@ -730,7 +730,7 @@ This controller requires `SELinuxChangePolicy` feature gate to be enabled.
 
 When enabled, the controller observes running Pods and when it detects that two Pods use the same volume
 with different SELinux labels:
-1. It emits an event to both of the Pods. `kubectl describe pod <pod-name>` the shows
+1. It emits an event to both of the Pods. `kubectl describe pod <pod-name>` that shows
   `SELinuxLabel "<label on the pod>" conflicts with pod <the other pod name> that uses the same volume as this pod
   with SELinuxLabel "<the other pod label>". If both pods land on the same node, only one of them may access the volume`.
 2. Raise `selinux_warning_controller_selinux_volume_conflict` metric. The metric has both pod
